@@ -21,7 +21,8 @@ submit.addEventListener("click", function (event) {
     const task = {
         id: Date.now(),
         text: inputValue,
-        completed: false
+        completed: false,
+        originalIndex: tasks.length
     };
 
     // Add task to array
@@ -39,9 +40,39 @@ submit.addEventListener("click", function (event) {
 function renderTasks() {
     taskList.innerHTML = ""; // Clear existing list
 
-    tasks.forEach(task => {
+    tasks.forEach((task, index) => {
         const li = document.createElement("li");
-        li.textContent = task.text;
+
+        // Create checkbox
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = task.completed;
+        checkbox.addEventListener("change", () => {
+            task.completed = checkbox.checked;
+
+            // Remove task from its current position
+            tasks.splice(index,1);
+
+            if (task.completed){
+                // Move to end
+                tasks.push(task);
+            } else {
+                // Move back to original position
+                tasks.splice(task.originalIndex, 0, task);
+            }
+            renderTasks();
+        });
+
+        // Create task text
+        const span = document.createElement("span");
+        span.textContent = task.text;
+        if (task.completed) {
+            span.style.textDecoration = "line-through";
+            span.style.color = "#999";
+        }
+
+        li.appendChild(checkbox);
+        li.appendChild(span);
         taskList.appendChild(li);
     });
 }
