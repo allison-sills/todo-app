@@ -5,26 +5,64 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!--SEO-->
-        <title>To Do</title>
+        <title>JavaScript To-Do App | Sills Web Solutions</title>
         <meta name="description" content="Stay organized and boost productivity with this JavaScript to-do app. Easily add, edit, and complete tasks in a clean, responsive interface.">
         <meta name="author" content="Sills Web Solutions">
         <link rel="canonical" href="https://allison-sills.github.io/todo-app/">
-        <!-- Favicons -->
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <meta name="theme-color" content="#ffffff">
+        <meta name="robots" content="index, follow">
+        <!--
+        The 'robots' meta tag instructs search engine crawlers:
+        - "index" means allow this page to be included in search results
+        - "follow" means allow crawlers to follow links on this page
+        This tells search engines: please index this page and crawl all links found here.
+        It's the default behavior but explicitly setting it can prevent unintended blocking.
+        -->
 
         <!--Open Graph (for Facebook, LinkedIn, Slack, etc.)-->
-        <meta property="og:title" content="JavaScript To-Do App">
+        <meta property="og:title" content="JavaScript To-Do App | Sills Web Solutions">
         <meta property="og:description" content="Stay organized and boost productivity with this JavaScript to-do app. Easily add, edit, and complete tasks in a clean, responsive interface.">
         <meta property="og:type" content="website">
         <meta property="og:url" content="https://allison-sills.github.io/todo-app/">
         <meta property="og:image" content="https://allison-sills.github.io/todo-app/images/to-do-list.png">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="JavaScript To-Do App">
+        <meta name="twitter:description" content="Stay organized and boost productivity with this JavaScript to-do app. Easily add, edit, and complete tasks in a clean, responsive interface.">
+        <meta name="twitter:image" content="https://allison-sills.github.io/todo-app/images/to-do-list.png">
+        
+        <!-- Favicon -->
+        <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="images/favicon//favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+
         <!--CSS-->
         <link rel="stylesheet" href="styles.css">
+
+        <script src="script.js" defer></script> <!--Download this script file while you load the HTML, but don’t run it until the HTML is completely parsed.-->
         <!--Preload resources here-->
     </head>
     <body>
-        <script src="script.js"></script>
+        <main>
+            <form id="todo-form" method="POST">
+                <label for="task-input">Add Task:</label>
+                <input type="text" id="task-input" name="task-input" placeholder="Enter a new task" required>
+                <input type="submit" formmethod="POST" value="Add Task">
+            </form>
+            <ul id="task-list"></ul>
+            <div id="error-message"></div>
+        </main>
+
+        <noscript>
+            <p style="color: red; text-align: center;">This app requires JavaScript to function. Please enable JavaScript in your browser settings.</p>
+        </noscript>
+
+         <!-- Image attribution -->
+        <footer style="text-align:center; margin-top: 2rem; font-size: 0.9rem; color: #666;">
+            <p>Images <a href="https://www.flaticon.com/free-icons/to-do-list" title="to do list icons">created by Freepik - Flaticon</a></p>
+        </footer>
     </body>
 </html>
