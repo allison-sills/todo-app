@@ -5,6 +5,11 @@ const errorMessage = document.getElementById("error-message");
 
 let tasks = [];
 
+document.addEventListener("DOMContentLoaded", () => {
+  loadTasks(); // Load saved tasks
+});
+
+
 const submit = document.getElementById("submit");
 submit.addEventListener("click", function (event) {
 
@@ -40,6 +45,9 @@ submit.addEventListener("click", function (event) {
 function renderTasks() {
     taskList.innerHTML = ""; // Clear existing list
 
+    // Sort tasks: incomplete first, completed last
+    tasks.sort((a,b) => a.completed - b.completed);
+
     tasks.forEach((task, index) => {
         const li = document.createElement("li");
 
@@ -47,20 +55,11 @@ function renderTasks() {
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.checked = task.completed;
+
         checkbox.addEventListener("change", () => {
             task.completed = checkbox.checked;
-
-            // Remove task from its current position
-            tasks.splice(index,1);
-
-            if (task.completed){
-                // Move to end
-                tasks.push(task);
-            } else {
-                // Move back to original position
-                tasks.splice(task.originalIndex, 0, task);
-            }
             renderTasks();
+            saveTasks(); // Save updated state
         });
 
         // Create task text
@@ -71,8 +70,29 @@ function renderTasks() {
             span.style.color = "#999";
         }
 
+        // Delete button
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "🗑️";
+        deleteBtn.style.marginLeft = "1rem";
+        deleteBtn.addEventListener("click", () => {
+            tasks.splice(index,1); // Remove task
+            renderTasks();
+            saveTasks(); // Save updated state
+        })
+
         li.appendChild(checkbox);
         li.appendChild(span);
+        li.appendChild(deleteBtn);
         taskList.appendChild(li);
     });
+}
+function saveTasks() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+function loadTasks() {
+    const storedTasks = localStorage.getItem("tasks");
+    if (storedTasks) {
+        tasks = JSON.parse(storedTasks);
+        renderTasks();
+    }
 }
