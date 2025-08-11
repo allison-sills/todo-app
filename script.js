@@ -43,13 +43,22 @@ submit.addEventListener("click", function (event) {
 
 });
 
+let currentFilter = "all";
+
+function filterTasks(filter) {
+    currentFilter = filter;
+    renderTasks();
+}
+
 function renderTasks() {
     taskList.innerHTML = ""; // Clear existing list
 
     // Sort tasks: incomplete first, completed last
-    tasks.sort((a,b) => a.completed - b.completed);
-
-    tasks.forEach((task, index) => {
+    tasks.filter(task => {
+        if (currentFilter === "completed") return task.completed;
+        if (currentFilter === "incomplete") return !task.completed;
+        return true; // 'all'
+    }).sort((a,b) => a.completed - b.completed).forEach((task, index) => {
         const li = document.createElement("li");
 
         // Create checkbox
@@ -70,6 +79,13 @@ function renderTasks() {
             span.style.textDecoration = "line-through";
             span.style.color = "#999";
         }
+        
+        // Button container
+        const buttonGroup = document.createElement("span");
+        buttonGroup.style.marginLeft = "1rem";
+        buttonGroup.style.display = "inline-flex";
+        buttonGroup.style.gap = "0.3rem"; // space between buttons
+
 
         // Delete button
         const deleteBtn = document.createElement("button");
@@ -84,7 +100,7 @@ function renderTasks() {
         // Edit button
         const editBtn = document.createElement("button");
         editBtn.textContent = "✏️";
-        editBtn.style.marginLeft = "0.5rem";
+        editBtn.style.marginLeft = "0.1rem";
         editBtn.addEventListener("click", () => {
             const newText = prompt("Edit task:", task.text);
             if (newText !== null && newText.trim() !== ""){
@@ -94,9 +110,14 @@ function renderTasks() {
             }
         })
 
+        
+        // Add buttons to container
+        buttonGroup.appendChild(deleteBtn);
+        buttonGroup.appendChild(editBtn);
+
         li.appendChild(checkbox);
         li.appendChild(span);
-        li.appendChild(deleteBtn);
+        li.appendChild(buttonGroup);
         taskList.appendChild(li);
     });
 }
