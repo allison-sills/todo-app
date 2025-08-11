@@ -39,6 +39,7 @@ submit.addEventListener("click", function (event) {
 
     // Render task list
     renderTasks();
+    saveTasks();
 
 });
 
@@ -78,6 +79,19 @@ function renderTasks() {
             tasks.splice(index,1); // Remove task
             renderTasks();
             saveTasks(); // Save updated state
+        })
+
+        // Edit button
+        const editBtn = document.createElement("button");
+        editBtn.textContent = "✏️";
+        editBtn.style.marginLeft = "0.5rem";
+        editBtn.addEventListener("click", () => {
+            const newText = prompt("Edit task:", task.text);
+            if (newText !== null && newText.trim() !== ""){
+                task.text = newText.trim();
+                saveTasks();
+                renderTasks();
+            }
         })
 
         li.appendChild(checkbox);
